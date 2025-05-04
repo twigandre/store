@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="DependencyInjection\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Store.App.Application.Application\Store.App.Application.Application.csproj" />
+    <ProjectReference Include="..\Store.App.Application.Domain\Store.App.Application.Domain.csproj" />
+    <ProjectReference Include="..\Store.App.Infrastructure.Data\Store.App.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\Store.App.Infrastructure.Integrations\Store.App.Infrastructure.Integrations.csproj" />
+  </ItemGroup>
+
+</Project>
