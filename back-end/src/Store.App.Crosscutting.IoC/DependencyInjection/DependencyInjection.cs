@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Store.App.Core.Application.Services.Produto.ProdutoCategoria;
+using Store.App.Core.Application.Usuario;
 using Store.App.Crosscutting.Commom.Security.JwtManager;
 using Store.App.Infrastructure.Database.DbRepository;
 using Store.App.Infrastructure.Database.DbRepository.Carro;
@@ -17,14 +20,22 @@ namespace Store.App.Crosscutting.IoC.DependencyInjection
     public static class DependencyInjection
     {
         public static void Initialize(this IServiceCollection services) =>
-            services.Services().
+            services.Security().
+                     Services().
                      Entities().
-                     Repositories().
-                     Security();
+                     Repositories();
+        private static IServiceCollection Security(this IServiceCollection services)
+        {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IJwtManager, JwtManager>();
+
+            return services;
+        }
 
         private static IServiceCollection Services(this IServiceCollection services)
         {
             services.AddScoped<IProdutoCategoria, ProdutoCategoria>();
+            services.AddScoped<IUsuario, Usuario>();
 
             return services;
         }
@@ -60,11 +71,6 @@ namespace Store.App.Crosscutting.IoC.DependencyInjection
             return services;
         }
 
-        private static IServiceCollection Security(this IServiceCollection services)
-        {
-            services.AddScoped<IJwtManager, JwtManager>();
-
-            return services;
-        }
+       
     }
 }

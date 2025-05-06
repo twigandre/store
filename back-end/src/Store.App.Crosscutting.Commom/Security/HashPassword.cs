@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Store.App.Crosscutting.Commom.Security
 {
-    public class HashPassword
+    public static class HashPassword
     {
         public static string StringToHash(string input)
         {

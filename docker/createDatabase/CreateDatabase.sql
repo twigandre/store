@@ -340,15 +340,17 @@ DO $$
 DECLARE
 	endereco_id INT;
     filial_id INT;
+	name_id INT;
 BEGIN
     SELECT id INTO endereco_id FROM usuario_endereco WHERE zipcode = '69043790' LIMIT 1;
     SELECT id INTO filial_id FROM filial WHERE nome = 'Sede' LIMIT 1;
+    SELECT id INTO name_id FROM usuario_nome WHERE nome = 'twig' LIMIT 1;
 
     IF NOT EXISTS (
         SELECT 1 FROM usuario WHERE email = 'administrador@empresa.com'
     ) THEN
-        INSERT INTO usuario (email, phone, senha, perfil, filial_id, endereco_id, status)
-        VALUES ('administrador@empresa.com', '(92) 99999-9999', 'MTIzNDU2', 'administrador', filial_id, endereco_id, 'ativo'); --senha é 123456
+        INSERT INTO usuario (email, phone, senha, perfil, filial_id, nome_id, endereco_id, status)
+        VALUES ('administrador@empresa.com', '(92) 99999-9999', 'MTIzNDU2', 'administrador', filial_id, name_id, endereco_id, 'ativo'); --senha é 123456
     END IF;
 END
 $$;

@@ -15,17 +15,15 @@ namespace Store.App.Crosscutting.Commom.Security.JwtManager
     public class JwtManager : IJwtManager
     {
         IHttpContextAccessor _httpContextAccessor;
-        private string secretKeyToken;
         public JwtManager(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
-            secretKeyToken = Environment.GetEnvironmentVariable("KEY_API");
         }
 
         public string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(secretKeyToken);
+            var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("KEY_API"));
             var teste = DateTime.UtcNow.AddSeconds(60);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -53,7 +51,7 @@ namespace Store.App.Crosscutting.Commom.Security.JwtManager
                 IJwtValidator validator = new JwtValidator(serializer, provider);
                 IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
                 IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder, algorithm);
-                var parseToken = decoder.DecodeToObject<User>(token, secretKeyToken, verify: true);
+                var parseToken = decoder.DecodeToObject<User>(token, Environment.GetEnvironmentVariable("KEY_API"), verify: true);
                 parseToken.EmailUsuarioLogado = parseToken.NameId;
                 return parseToken;
                 #endregion
@@ -73,6 +71,7 @@ namespace Store.App.Crosscutting.Commom.Security.JwtManager
         public User ObterUsuarioLogado()
         {
             var token = GetTokenFromHeader();
+
             var usuarioJWT = GetUserFromToken(token);
 
             if (usuarioJWT == null)

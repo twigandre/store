@@ -28,7 +28,7 @@ namespace Store.App.Infrastructure.Database.Entities
         public string Telefone { get; set; }
 
         [Column("senha")]
-        [StringLength(100)]
+        [StringLength(200)]
         [Required]
         public string Senha { get; set; }
 
@@ -55,6 +55,6 @@ namespace Store.App.Infrastructure.Database.Entities
         [Column("status")]
         [RegularExpression(@"^(ativo|inativo|suspenso)$", ErrorMessage = "O status deve ser 'ativo','inativo' ou 'suspenso'.")]
         [Required]
-        public bool Status { get; set; }
+        public string Status { get; set; }
     }
 }
