@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Store.App.Core.Application.Usuario;
-using Store.App.Crosscutting.Commom.ViewModel;
-using Store.App.Crosscutting.Commom.ViewModel.Login;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Store.App.Core.Application.Auth;
 
 namespace WebApi.Controllers
 {
@@ -9,21 +8,18 @@ namespace WebApi.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        IUsuario _service;
-        public AuthController(IUsuario service)
+        IMediator _mediator;
+        public AuthController(IMediator mediator)
         {
-            _service = service;
+            _mediator = mediator;
         }
 
         [HttpPost("[action]")]
-        public IActionResult Login([FromBody] LoginRequest obj)
+        public async Task<ActionResult<AuthenticateUserResult>> Login ([FromBody] AuthenticateUserCommand obj, CancellationToken cancellationToken)
         {
-            RequestResponse result = _service.Logar(obj);
+            AuthenticateUserResult result = await _mediator.Send(obj, cancellationToken);
 
-            if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                return Ok(result.TextResponse);
-            else
-                return NotFound(result.TextResponse);
+            return (result.StatusCode == System.Net.HttpStatusCode.OK) ? Ok(result) : NotFound(result);
         }
     }
 }

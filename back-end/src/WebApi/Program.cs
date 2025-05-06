@@ -1,10 +1,11 @@
-using Microsoft.AspNetCore.Diagnostics;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Store.App.Core.Application;
 using Store.App.Crosscutting.Commom.HandleError;
-using Store.App.Crosscutting.Commom.Logging;
 using Store.App.Crosscutting.Commom.Security;
 using Store.App.Crosscutting.IoC.DependencyInjection;
 using Store.App.Infrastructure.Database;
+using System.Reflection;
 
 string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
@@ -31,6 +32,14 @@ builder.Services.AddDbContext<StoreContext>(options => {
 });
 
 builder.Services.Initialize();
+
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssemblies(
+        typeof(ApplicationLayer).Assembly,
+        typeof(Program).Assembly
+    );
+});
 
 WebApplication app = builder.Build();
 

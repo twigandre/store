@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MediatR;
+using System.ComponentModel.DataAnnotations;
 
-namespace Store.App.Crosscutting.Commom.ViewModel.Login
+namespace Store.App.Core.Application.Auth
 {
-    public class LoginRequest
+    public class AuthenticateUserCommand : IRequest<AuthenticateUserResult>
     {
         [MinLength(3, ErrorMessage = "O email do usuário deve ter no mínimo 3 caracteres.")]
         [MaxLength(50, ErrorMessage = "O email do usuário deve ter no máximo 3 caracteres.")]

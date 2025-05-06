@@ -24,20 +24,11 @@ namespace Store.App.Infrastructure.Database.DbRepository
             return Set.Find(keys);
         }
 
-        public IEnumerable<T> FindAll()
-        {
-            var teste = Set.AsNoTracking().ToList();
-            return teste;
-        }
-
-        public void Adicionar(T entity)
-        {
-            var entry = Context.Entry(entity);
-            if (entry.State == EntityState.Detached)
-                Set.Add(entity);
-        }
-
-        public void Salvar(T entity)
+        public async Task<IEnumerable<T>> FindAll(CancellationToken cancellationToken) =>
+            await Set.AsNoTracking()    
+                     .ToListAsync(cancellationToken);
+         
+        public async Task Salvar(T entity, CancellationToken cancellationToken)
         {
             var props = typeof(T)
                 .GetProperties()
@@ -49,31 +40,35 @@ namespace Store.App.Infrastructure.Database.DbRepository
 
             if (codeValue == 0)
             {
-                Adicionar(entity);
+                await Adicionar(entity);
             }
             else
             {
-                Update(entity);
+                await Update(entity);
             }
         }
-
-        public void Apagar(T entity)
+        
+        private async Task Adicionar(T entity)
         {
             var entry = Context.Entry(entity);
-            if (entry.State == EntityState.Detached)
-                Set.Attach(entity);
-            Set.Remove(entity);
+            if (entry.State == EntityState.Detached)            
+                await Set.AddAsync(entity);            
         }
 
-        public void Update(T entity)
+        private Task Update(T entity)
         {
             var entry = Context.Entry(entity);
             if (entry.State == EntityState.Detached)
                 Set.Attach(entity);
+
             entry.State = EntityState.Modified;
+
+            return Task.CompletedTask;
         }
 
-        public T Selecionar([Required] Expression<Func<T, bool>> predicate, string includeProperties = "")
+        public async Task<T> Selecionar([Required] Expression<Func<T, bool>> predicate, 
+                                        string includeProperties = "", 
+                                        CancellationToken cancellationToken = default)
         {
             IQueryable<T> query = Context.Set<T>();
 
@@ -87,14 +82,14 @@ namespace Store.App.Infrastructure.Database.DbRepository
                 }
             }
 
-            return query
-                   .AsNoTracking()
-                   .FirstOrDefault();
+            return await query
+                         .AsNoTracking()
+                         .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public List<T> Listar(Expression<Func<T, bool>> filter = null,
-               Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = "")
+        public async Task<List<T>> Listar(Expression<Func<T, bool>> filter = null, 
+                                          string includeProperties = "", 
+                                          CancellationToken cancellationToken = default)
         {
             IQueryable<T> query = Context.Set<T>();
 
@@ -109,21 +104,14 @@ namespace Store.App.Infrastructure.Database.DbRepository
                 query = query.Include(includeProperty);
             }
 
-            if (orderBy != null)
-            {
-                return orderBy(query)
-                    .AsNoTracking()
-                    .ToList();
-            }
-            else
-            {
-                return query
-                    .AsNoTracking()
-                    .ToList();
-            }
+            return await query
+                   .AsNoTracking()
+                   .ToListAsync(cancellationToken);            
         }
 
-        public async Task<PagedItems<T>> PaginationQueryRepository<TResult>(PagedOptions pagedFilter, IQueryable<T> query)
+        public async Task<PagedItems<T>> Pagination<TResult>(PagedOptions pagedFilter, 
+                                                             IQueryable<T> query, 
+                                                             CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrEmpty(pagedFilter.Sort) && pagedFilter.SortManny == null)
             {
@@ -167,77 +155,18 @@ namespace Store.App.Infrastructure.Database.DbRepository
             query = query.Skip(skip);
             query = query.Take(pagedFilter.Size.Value);
 
-            var resultadoBusca = await query.AsNoTracking().ToListAsync();
+            var resultadoBusca = await query.AsNoTracking().ToListAsync(cancellationToken);
 
             paged.Items = resultadoBusca;
 
             return paged;
         }
 
-        public PagedItems<T> ListarPaginado(Expression<Func<T, bool>> predicate, PagedOptions pagedFilter)
-        {
-
-            if (string.IsNullOrEmpty(pagedFilter.Sort) && pagedFilter.SortManny == null)
-            {
-                var props = typeof(T)
-                    .GetProperties()
-                    .Where(prop =>
-                        Attribute.IsDefined(prop,
-                            typeof(KeyAttribute)));
-
-                pagedFilter.Sort = props.First().Name;
-            }
-
-            PagedItems<T> paged = new PagedItems<T>();
-
-            IQueryable<T> query = Context.Set<T>();
-
-            query = Context
-                    .Set<T>()
-                    .AsNoTracking()
-                    .Where(predicate)
-                    .AsQueryable();
-
-            paged.Total = query.Count();
-
-            if (!string.IsNullOrEmpty(pagedFilter.Sort))
-            {
-                query = LinqExtension.OrderBy(query, pagedFilter.Sort, pagedFilter.Reverse == null ? false : (bool)pagedFilter.Reverse);
-            }
-            else
-            {
-                if (pagedFilter.SortManny != null)
-                {
-                    var list = pagedFilter.SortManny.ToList();
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            query = LinqExtension.OrderBy(query, list[i].Sort, list[i].Reverse == null ? false : (bool)list[i].Reverse);
-                        }
-                        else
-                        {
-                            query = LinqExtension.ThenBy(query, list[i].Sort, list[i].Reverse == null ? false : (bool)list[i].Reverse);
-                        }
-                    }
-                }
-            }
-
-            var skip = pagedFilter.Page.Value * pagedFilter.Size.Value - pagedFilter.Size.Value;
-            query = query.Skip(skip);
-            query = query.Take(pagedFilter.Size.Value);
-
-            paged.Items = query.ToList();
-            return paged;
-        }
-
-        public bool Existe(Expression<Func<T, bool>> predicate)
-        {
-            return Context
-                .Set<T>()
-                .AsNoTracking()
-                .Any(predicate);
-        }
+        public async Task<bool> Existe(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) => 
+            await Context.Set<T>()
+                         .AsNoTracking()
+                         .AnyAsync(predicate, cancellationToken);
+        
 
         public void DetachEntries()
         {
@@ -250,6 +179,17 @@ namespace Store.App.Infrastructure.Database.DbRepository
         public void DetachEspecifyEntity(T entity)
         {
             Context.Entry(entity).State = EntityState.Detached;
+        }
+
+        public Task Apagar(T entity, CancellationToken cancellationToken = default)
+        {
+            var entry = Context.Entry(entity);
+            if (entry.State == EntityState.Detached)
+                Set.Attach(entity);
+
+            Set.Remove(entity);
+
+            return Task.CompletedTask;
         }
     }
 }

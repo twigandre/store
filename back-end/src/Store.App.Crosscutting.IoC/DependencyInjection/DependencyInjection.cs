@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Store.App.Core.Application.Services.Produto.ProdutoCategoria;
-using Store.App.Core.Application.Usuario;
 using Store.App.Crosscutting.Commom.Security.JwtManager;
 using Store.App.Infrastructure.Database.DbRepository;
 using Store.App.Infrastructure.Database.DbRepository.Carro;
@@ -34,9 +31,6 @@ namespace Store.App.Crosscutting.IoC.DependencyInjection
 
         private static IServiceCollection Services(this IServiceCollection services)
         {
-            services.AddScoped<IProdutoCategoria, ProdutoCategoria>();
-            services.AddScoped<IUsuario, Usuario>();
-
             return services;
         }
 

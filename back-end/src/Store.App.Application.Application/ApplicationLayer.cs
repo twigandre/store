@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Store.App.Core.Application.Services.Produto.ProdutoCategoria
+namespace Store.App.Core.Application
 {
-    internal class Produto
+    public class ApplicationLayer
     {
     }
 }
