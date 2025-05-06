@@ -7,15 +7,12 @@ namespace Store.App.Infrastructure.Database.Entities
     public class UsuarioEntity
     {
         public virtual FilialEntity? Filial { get; set; }
+        public virtual UsuarioNomeEntity? Nome { get; set; }
+        public virtual UsuarioEnderecoEntity? Endereco { get; set; }
 
         [Key]
         [Column("id")]
         public int Id { get; set; }
-
-        [Column("nome")]
-        [StringLength(100)]
-        [Required]
-        public string Nome { get; set; }
 
         [Column("email")]
         [StringLength(50)]
@@ -24,6 +21,12 @@ namespace Store.App.Infrastructure.Database.Entities
         [Required]
         public string Email { get; set; }
 
+        [Column("phone")]
+        [StringLength(15)]
+        [DataType(DataType.PhoneNumber)]
+        [Required]
+        public string Telefone { get; set; }
+
         [Column("senha")]
         [StringLength(100)]
         [Required]
@@ -31,7 +34,7 @@ namespace Store.App.Infrastructure.Database.Entities
 
         [Column("perfil")]
         [StringLength(20)]
-        [RegularExpression(@"^(admin|vendedor)$", ErrorMessage = "O perfil deve ser 'admin' ou 'vendedor'.")]
+        [RegularExpression(@"^(cliente|gerente|administrador)$", ErrorMessage = "O perfil deve ser 'cliente','gerente' ou 'administrador'.")]
         [Required]
         public string Perfil { get; set; }
 
@@ -39,8 +42,19 @@ namespace Store.App.Infrastructure.Database.Entities
         [ForeignKey(nameof(Filial))]
         public int? FilialId { get; set; }
 
-        [Column("ativo")]
+        [Column("nome_id")]
+        [ForeignKey(nameof(Nome))]
         [Required]
-        public bool Ativo { get; set; }
+        public int NomeId { get; set; }
+
+        [Column("endereco_id")]
+        [ForeignKey(nameof(Endereco))]
+        [Required]
+        public int EnderecoId { get; set; }
+
+        [Column("status")]
+        [RegularExpression(@"^(ativo|inativo|suspenso)$", ErrorMessage = "O status deve ser 'ativo','inativo' ou 'suspenso'.")]
+        [Required]
+        public bool Status { get; set; }
     }
 }

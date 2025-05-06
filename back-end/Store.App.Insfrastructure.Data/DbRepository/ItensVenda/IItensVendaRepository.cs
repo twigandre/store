@@ -2,7 +2,7 @@
 
 namespace Store.App.Infrastructure.Database.DbRepository.ItensVenda
 {
-    public interface IItensVendaRepository : IGenericRepository<ItensVendaEntity>
+    public interface IItensVendaRepository : IGenericRepository<VendaItensEntity>
     {
     }
 }

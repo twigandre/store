@@ -1,4 +1,4 @@
-﻿using Store.App.Infrastructure.Database.Entitites;
+﻿using Store.App.Infrastructure.Database.Entities;
 
 namespace Store.App.Infrastructure.Database.DbRepository.ProdutoCategoria
 {

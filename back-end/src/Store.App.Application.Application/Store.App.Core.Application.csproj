@@ -13,11 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Store.App.Application.Domain\Store.App.Application.Domain.csproj" />
+    <ProjectReference Include="..\..\Store.App.Insfrastructure.Data\Store.App.Insfrastructure.Database.csproj" />
+    <ProjectReference Include="..\Store.App.Application.Domain\Store.App.Core.Domain.csproj" />
   </ItemGroup>
 
 </Project>

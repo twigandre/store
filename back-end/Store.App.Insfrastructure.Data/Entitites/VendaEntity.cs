@@ -9,11 +9,11 @@ namespace Store.App.Infrastructure.Database.Entities
     {
         public virtual ClienteEntity Cliente { get; set; }
         public virtual FilialEntity Filial { get; set; }
-        public virtual ICollection<ItensVendaEntity> ItensVenda { get; set; }
+        public virtual ICollection<VendaItensEntity> ItensVenda { get; set; }
 
         public VendaEntity()
         {
-            ItensVenda = new HashSet<ItensVendaEntity>();
+            ItensVenda = new HashSet<VendaItensEntity>();
         }
 
         [Key]
@@ -44,7 +44,7 @@ namespace Store.App.Infrastructure.Database.Entities
         [Required]
         public decimal ValorTotal { get; set; }
 
-        [Column("cancelada")]
+        [Column("is_cancelada")]
         [Required]
         public bool IsCancelada { get; set; }
     }

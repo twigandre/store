@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Store.App.Infrastructure.Database.Entitites;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

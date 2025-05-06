@@ -24,11 +24,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.SetJwt();
 
-string connectionString = $"Host={Environment.GetEnvironmentVariable("DB_HOST")};" +
-                          $"Port={Environment.GetEnvironmentVariable("DB_PORT")};" +
-                          $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
-                          $"Username={Environment.GetEnvironmentVariable("DB_USER")};" +
-                          $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")};";
+string connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
 builder.Services.AddDbContext<StoreContext>(options => {
     options.UseNpgsql(connectionString);

@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Store.App.Application.Application\Store.App.Application.Application.csproj" />
-    <ProjectReference Include="..\Store.App.Application.Domain\Store.App.Application.Domain.csproj" />
+    <ProjectReference Include="..\..\Store.App.Insfrastructure.Data\Store.App.Insfrastructure.Database.csproj" />
+    <ProjectReference Include="..\Store.App.Application.Application\Store.App.Core.Application.csproj" />
+    <ProjectReference Include="..\Store.App.Application.Domain\Store.App.Core.Domain.csproj" />
     <ProjectReference Include="..\Store.App.Crosscutting.Commom\Store.App.Crosscutting.Commom.csproj" />
-    <ProjectReference Include="..\Store.App.Infrastructure.Data\Store.App.Infrastructure.Database.csproj" />
     <ProjectReference Include="..\Store.App.Infrastructure.Integrations\Store.App.Infrastructure.Integrations.csproj" />
   </ItemGroup>
 

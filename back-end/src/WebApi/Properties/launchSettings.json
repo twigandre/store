@@ -15,7 +15,8 @@
       "applicationUrl": "http://localhost:5011/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Local",
-        "KEY_API": "a7f4d9c3b82e4f659bf7e1a93472bcf816d9a42e7c35abf2d5"
+        "KEY_API": "a7f4d9c3b82e4f659bf7e1a93472bcf816d9a42e7c35abf2d5",
+        "CONNECTION_STRING": "Host=localhost;Port=5432;Database=sistema_vendas;Username=postgres;Password=postgres;"
       }
     },
     "https": {
@@ -24,7 +25,8 @@
       "applicationUrl": "https://localhost:7065/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Local",
-        "KEY_API": "a7f4d9c3b82e4f659bf7e1a93472bcf816d9a42e7c35abf2d5"
+        "KEY_API": "a7f4d9c3b82e4f659bf7e1a93472bcf816d9a42e7c35abf2d5",
+        "CONNECTION_STRING": "Host=localhost;Port=5432;Database=sistema_vendas;Username=postgres;Password=postgres;"
       }
     },
     "IIS Express": {
@@ -34,7 +36,8 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Local",
-        "KEY_API": "a7f4d9c3b82e4f659bf7e1a93472bcf816d9a42e7c35abf2d5"
+        "KEY_API": "a7f4d9c3b82e4f659bf7e1a93472bcf816d9a42e7c35abf2d5",
+        "CONNECTION_STRING": "Host=localhost;Port=5432;Database=sistema_vendas;Username=postgres;Password=postgres;"
       }
     }
   }

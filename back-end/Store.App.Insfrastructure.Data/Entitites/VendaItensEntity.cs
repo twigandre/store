@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Store.App.Infrastructure.Database.Entities
 {
     [Table("itens_venda")]
-    public class ItensVendaEntity
+    public class VendaItensEntity
     {
         public virtual VendaEntity Venda { get; set; }
         public virtual ProdutoEntity Produto { get; set; }
@@ -43,7 +43,7 @@ namespace Store.App.Infrastructure.Database.Entities
         [Required]
         public decimal ValorTotal { get; set; }
 
-        [Column("cancelado")]
+        [Column("is_cancelado")]
         [Required]
         public bool IsCancelado { get; set; }
     }
