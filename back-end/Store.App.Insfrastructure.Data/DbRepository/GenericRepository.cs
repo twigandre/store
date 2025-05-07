@@ -113,7 +113,7 @@ namespace Store.App.Infrastructure.Database.DbRepository
                                                              IQueryable<T> query, 
                                                              CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrEmpty(pagedFilter.Sort) && pagedFilter.SortManny == null)
+            if (string.IsNullOrEmpty(pagedFilter.Sort))
             {
                 var props = typeof(T)
                     .GetProperties()
@@ -130,29 +130,15 @@ namespace Store.App.Infrastructure.Database.DbRepository
 
             if (!string.IsNullOrEmpty(pagedFilter.Sort))
             {
-                query = LinqExtension.OrderBy(query, pagedFilter.Sort, pagedFilter.Reverse == null ? false : (bool)pagedFilter.Reverse);
-            }
-            else
-            {
-                if (pagedFilter.SortManny != null)
-                {
-                    var list = pagedFilter.SortManny.ToList();
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            query = LinqExtension.OrderBy(query, list[i].Sort, list[i].Reverse == null ? false : (bool)list[i].Reverse);
-                        }
-                        else
-                        {
-                            query = LinqExtension.ThenBy(query, list[i].Sort, list[i].Reverse == null ? false : (bool)list[i].Reverse);
-                        }
-                    }
-                }
+                bool isReverse = pagedFilter.Reverse is null ? false : (bool)pagedFilter.Reverse;
+
+                query = LinqExtension.OrderBy(query, pagedFilter.Sort, isReverse);
             }
 
             var skip = pagedFilter.Page.Value * pagedFilter.Size.Value - pagedFilter.Size.Value;
+
             query = query.Skip(skip);
+            
             query = query.Take(pagedFilter.Size.Value);
 
             var resultadoBusca = await query.AsNoTracking().ToListAsync(cancellationToken);

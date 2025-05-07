@@ -1,8 +1,8 @@
-﻿using Store.App.Infrastructure.Database.Entities;
+﻿using Store.App.Infrastructure.Database.DbEntities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Store.App.Infrastructure.Database.Entities
+namespace Store.App.Infrastructure.Database.DbEntities
 {
     [Table("carro_produtos")]
     public class CarroProdutoEntity

@@ -2,12 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Store.App.Infrastructure.Database.Entities
+namespace Store.App.Infrastructure.Database.DbEntities
 {
     [Table("vendas")]
     public class VendaEntity
     {
-        public virtual ClienteEntity Cliente { get; set; }
+        public virtual UsuarioEntity Usuario { get; set; }
         public virtual FilialEntity Filial { get; set; }
         public virtual ICollection<VendaItensEntity> ItensVenda { get; set; }
 
@@ -29,10 +29,10 @@ namespace Store.App.Infrastructure.Database.Entities
         [Required]
         public DateTime DataHoraVenda { get; set; }
 
-        [Column("cliente_id")]
-        [ForeignKey(nameof(Cliente))]
+        [Column("usuario_id")]
+        [ForeignKey(nameof(Usuario))]
         [Required]
-        public int ClienteId { get; set; }
+        public int UsuarioId { get; set; }
 
         [Column("filial_id")]
         [ForeignKey(nameof(Filial))]

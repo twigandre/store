@@ -2,20 +2,12 @@
 DO $$
 BEGIN
     IF NOT EXISTS (
-        SELECT FROM pg_database WHERE datname = 'sistema_vendas'
+        SELECT FROM pg_database WHERE datname = 'store'
     ) THEN
-        EXECUTE 'CREATE DATABASE sistema_vendas';
+        EXECUTE 'CREATE DATABASE store';
     END IF;
 END
 $$;
-
-CREATE TABLE IF NOT EXISTS cliente (
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    cpf VARCHAR(11) UNIQUE NOT NULL CHECK (LENGTH(cpf) = 11),
-    telefone VARCHAR(15) NOT NULL,
-    email VARCHAR(50) UNIQUE NOT NULL
-);
 
 CREATE TABLE IF NOT EXISTS filial (
     id SERIAL PRIMARY KEY,
@@ -34,11 +26,34 @@ CREATE TABLE IF NOT EXISTS produto (
 	categoria_id INTEGER not null REFERENCES produto_categoria(id)
 );
 
+CREATE TABLE IF NOT EXISTS usuario (
+    id SERIAL PRIMARY KEY,
+	nome VARCHAR(20) NOT NULL,
+	sobre_nome VARCHAR(20) NOT NULL,
+    email VARCHAR(50) UNIQUE NOT NULL,
+	phone VARCHAR(15) UNIQUE NOT NULL,
+    senha VARCHAR(200) NOT NULL,
+    perfil VARCHAR(20) NOT NULL CHECK (perfil IN ('cliente', 'gerente', 'administrador')),
+    filial_id INTEGER NULL REFERENCES filial(id),
+	status VARCHAR(20) NOT NULL CHECK (status IN ('ativo', 'inativo', 'suspenso'))
+);
+
+CREATE TABLE IF NOT EXISTS usuario_endereco ( 
+    id SERIAL PRIMARY KEY,
+    cidade VARCHAR(50) NOT NULL,
+	logradouro VARCHAR(50) NOT NULL,
+	numero integer not null,
+	zipcode varchar(10) null,
+	latitude varchar(15) not null,
+	longitude varchar(15) not null,
+	usuario_id INTEGER NULL REFERENCES usuario(id)
+);
+
 CREATE TABLE IF NOT EXISTS venda (
     id SERIAL PRIMARY KEY,
     numero_venda VARCHAR(11) UNIQUE NOT NULL,
     data_venda TIMESTAMP NOT NULL DEFAULT NOW(),
-    cliente_id INTEGER NOT NULL REFERENCES cliente(id),
+    usuario_id INTEGER NOT NULL REFERENCES usuario(id),
     filial_id INTEGER NOT NULL REFERENCES filial(id),
     valor_total NUMERIC(12, 2) NOT NULL DEFAULT 0,
     is_cancelada BOOLEAN NOT NULL DEFAULT FALSE
@@ -55,37 +70,9 @@ CREATE TABLE IF NOT EXISTS venda_itens (
     is_cancelado BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE IF NOT EXISTS usuario_nome (
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(20) NOT NULL,
-	sobre_nome VARCHAR(20) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS usuario_endereco ( 
-    id SERIAL PRIMARY KEY,
-    cidade VARCHAR(50) NOT NULL,
-	logradouro VARCHAR(50) NOT NULL,
-	numero integer not null,
-	zipcode varchar(10) null,
-	latitude varchar(15) not null,
-	longitude varchar(15) not null
-);
-
-CREATE TABLE IF NOT EXISTS usuario (
-    id SERIAL PRIMARY KEY,
-    email VARCHAR(50) UNIQUE NOT NULL,
-	phone VARCHAR(15) UNIQUE NOT NULL,
-    senha VARCHAR(100) NOT NULL,
-    perfil VARCHAR(20) NOT NULL CHECK (perfil IN ('cliente', 'gerente', 'administrador')),
-    filial_id INTEGER NULL REFERENCES filial(id),
-	nome_id INTEGER NULL REFERENCES usuario_nome(id),
-	endereco_id INTEGER NULL REFERENCES usuario_endereco(id),
-	status VARCHAR(20) NOT NULL CHECK (status IN ('ativo', 'inativo', 'suspenso'))
-);
-
 CREATE TABLE IF NOT EXISTS carro ( 
     id SERIAL PRIMARY KEY,
-	cliente_id INTEGER NOT NULL REFERENCES cliente(id),
+	usuario_id INTEGER NOT NULL REFERENCES usuario(id),
 	data_criacao TIMESTAMP NOT NULL
 );
 
@@ -113,7 +100,7 @@ BEGIN
         JOIN pg_namespace n ON n.oid = c.relnamespace
         WHERE c.relname = 'idx_vendas_cliente_id' AND n.nspname = 'public'
     ) THEN
-        CREATE INDEX idx_vendas_cliente_id ON venda(cliente_id);
+        CREATE INDEX idx_vendas_cliente_id ON venda(usuario_id);
     END IF;
 
     IF NOT EXISTS (
@@ -150,12 +137,14 @@ BEGIN
         CREATE INDEX idx_usuario_filial_id ON usuario(filial_id);
     END IF;
 	
+	----INDICE usuario endereco
+	
 	IF NOT EXISTS (
         SELECT 1 FROM pg_class c
         JOIN pg_namespace n ON n.oid = c.relnamespace
-        WHERE c.relname = 'idx_usuario_endereco' AND n.nspname = 'public'
+        WHERE c.relname = 'idx_usuario_endereco_usuario' AND n.nspname = 'public'
     ) THEN
-        CREATE INDEX idx_usuario_endereco ON usuario(endereco_id);
+        CREATE INDEX idx_usuario_endereco_usuario ON usuario_endereco(usuario_id);
     END IF;
 	
 END
@@ -297,60 +286,56 @@ BEGIN
 END
 $$;
 
----- CRIAR clientes
+---- CRIAR usuario
 
 DO $$
+DECLARE
+    filial_id INT;
+    i INT := 1;
+    email_base TEXT := 'usuario';
 BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM cliente WHERE cpf = '19830713075'
-    ) THEN
-        INSERT INTO cliente (nome, cpf, telefone, email)
-        VALUES ('Cliente Teste 1', '19830713075', '(11) 91234-5678', 'clienteteste1@teste.com');
-    END IF;
-END
-$$;
+    SELECT id INTO filial_id FROM filial WHERE nome = 'Sede' LIMIT 1;
 
----- CRIAR nome usuario
-
-DO $$
-BEGIN
+    -- Garante o usuário administrador principal
     IF NOT EXISTS (
-        SELECT 1 FROM usuario_nome WHERE nome = 'twig'
+        SELECT 1 FROM usuario WHERE email = 'administrador@empresa.com'
     ) THEN
-        INSERT INTO usuario_nome (nome, sobre_nome) VALUES ('twig', 'mesquita');
+        INSERT INTO usuario (email, nome, sobre_nome, phone, senha, perfil, filial_id, status)
+        VALUES ('administrador@empresa.com', 'André', 'Uchôa', '(92) 99999-9999', 'MTIzNDU2', 'administrador', filial_id, 'ativo');
     END IF;
+
+    -- Geração de 100 usuários fictícios
+    WHILE i <= 100 LOOP
+        IF NOT EXISTS (
+            SELECT 1 FROM usuario WHERE email = email_base || i || '@empresa.com'
+        ) THEN
+            INSERT INTO usuario (email, nome, sobre_nome, phone, senha, perfil, filial_id, status)
+            VALUES (
+                email_base || i || '@empresa.com',
+                'Usuario' || i,
+                'Teste',
+                '(92) 98888-' || TO_CHAR(i, 'FM0000'),
+                '91eb08d5493312a745c0f1a0cbc73dc2c2aa9d5763da78a7e34b95584a57c2acc06231efd58b66c2cea9e6d90c345d8e1ba7d73e1a921d27d56e74c9aec02f19',  -- Senha: 123456
+                'cliente',
+                filial_id,
+                'ativo'
+            );
+        END IF;
+        i := i + 1;
+    END LOOP;
 END
 $$;
 
 ---- CRIAR endereco usuario
 
 DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM usuario_endereco WHERE zipcode = '69043790'
-    ) THEN
-        INSERT INTO usuario_endereco (cidade, logradouro, numero, zipcode, latitude, longitude) VALUES ('Manaus', 'Alameda São José', '26', '69043790', '-3.0746604', '-60.0415794');
-    END IF;
-END
-$$;
-
----- CRIAR usuario
-
-DO $$
 DECLARE
-	endereco_id INT;
-    filial_id INT;
-	name_id INT;
+	usuario_id INT;
 BEGIN
-    SELECT id INTO endereco_id FROM usuario_endereco WHERE zipcode = '69043790' LIMIT 1;
-    SELECT id INTO filial_id FROM filial WHERE nome = 'Sede' LIMIT 1;
-    SELECT id INTO name_id FROM usuario_nome WHERE nome = 'twig' LIMIT 1;
-
     IF NOT EXISTS (
         SELECT 1 FROM usuario WHERE email = 'administrador@empresa.com'
     ) THEN
-        INSERT INTO usuario (email, phone, senha, perfil, filial_id, nome_id, endereco_id, status)
-        VALUES ('administrador@empresa.com', '(92) 99999-9999', 'MTIzNDU2', 'administrador', filial_id, name_id, endereco_id, 'ativo'); --senha é 123456
+        INSERT INTO usuario_endereco (cidade, logradouro, numero, zipcode, latitude, longitude, usuario_id) VALUES ('Manaus', 'Alameda São José', '26', '69043790', '-3.0746604', '-60.0415794', usuario_id);
     END IF;
 END
 $$;

@@ -19,7 +19,7 @@ namespace WebApi.Controllers
         {
             AuthenticateUserResult result = await _mediator.Send(obj, cancellationToken);
 
-            return (result.StatusCode == System.Net.HttpStatusCode.OK) ? Ok(result) : NotFound(result);
+            return StatusCode((int)result.StatusCode, result); 
         }
     }
 }

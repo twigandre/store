@@ -2,7 +2,8 @@
 using Store.App.Crosscutting.Commom.Security;
 using Store.App.Crosscutting.Commom.Security.JwtManager;
 using Store.App.Infrastructure.Database.DbRepository.Usuario;
-using Store.App.Infrastructure.Database.Entities;
+using Store.App.Infrastructure.Database.DbEntities;
+using System.Net;
 
 namespace Store.App.Core.Application.Auth
 {
@@ -11,7 +12,7 @@ namespace Store.App.Core.Application.Auth
         IUsuarioRepository _repository;
         IJwtManager _jwt;
         public AuthenticateUserHandler(IUsuarioRepository repository,
-                                      IJwtManager jwt)
+                                       IJwtManager jwt)
         {
             _repository = repository;
             _jwt = jwt;
@@ -19,7 +20,7 @@ namespace Store.App.Core.Application.Auth
 
         public async Task<AuthenticateUserResult> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
         {
-            UsuarioEntity usuario = await _repository.Selecionar(x => x.Email.ToUpper().Equals(request.username.ToUpper()), "Nome", cancellationToken);
+            UsuarioEntity usuario = await _repository.Selecionar(x => x.Email.ToUpper().Equals(request.email.ToUpper()), "", cancellationToken);
 
             string senhaEncript = HashPassword.StringToHash(request.password);
 
@@ -28,13 +29,13 @@ namespace Store.App.Core.Application.Auth
                 return new AuthenticateUserResult
                 {
                     TextResponse = "Login ou senha inválidos",
-                    StatusCode = System.Net.HttpStatusCode.NotFound,
+                    StatusCode = HttpStatusCode.NotFound,
                 };
             }
 
             User user = new User
             {
-                Name = usuario.Nome.Nome.ToUpper() + " " + usuario.Nome.SobreNome.ToUpper(),
+                Name = usuario.PrimeiroNome.ToUpper() + " " + usuario.SobreNome.ToUpper(),
                 Role = usuario.Perfil,
                 NameId = usuario.Email.ToUpper()
             };
@@ -43,7 +44,7 @@ namespace Store.App.Core.Application.Auth
             {
                 Token = _jwt.GenerateToken(user),
                 TextResponse = "Login realizado com sucesso!",
-                StatusCode = System.Net.HttpStatusCode.NotFound,
+                StatusCode = HttpStatusCode.OK
             };
         }
     }

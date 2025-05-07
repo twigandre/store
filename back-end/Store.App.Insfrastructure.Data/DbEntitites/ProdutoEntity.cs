@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Store.App.Infrastructure.Database.Entities
+namespace Store.App.Infrastructure.Database.DbEntities
 {
     [Table("produtos")]
     public class ProdutoEntity

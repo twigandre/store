@@ -1,4 +1,4 @@
-﻿using Store.App.Infrastructure.Database.Entities;
+﻿using Store.App.Infrastructure.Database.DbEntities;
 
 namespace Store.App.Infrastructure.Database.DbRepository.Produto
 {

@@ -1,13 +1,13 @@
-﻿using Store.App.Infrastructure.Database.Entities;
+﻿using Store.App.Infrastructure.Database.DbEntities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Store.App.Infrastructure.Database.Entities
+namespace Store.App.Infrastructure.Database.DbEntities
 {
     [Table("carro")]
     public class CarroEntity
     {
-        public virtual ClienteEntity Cliente { get; set; }
+        public virtual UsuarioEntity Usuario { get; set; }
         public virtual ICollection<CarroProdutoEntity> Produtos { get; set; }
 
         public CarroEntity()
@@ -19,10 +19,10 @@ namespace Store.App.Infrastructure.Database.Entities
         [Column("id")]
         public int Id { get; set; }
 
-        [Column("cliente_id")]
-        [ForeignKey(nameof(Cliente))]
+        [Column("usuario_id")]
+        [ForeignKey(nameof(Usuario))]
         [Required]
-        public int ClienteId { get; set; }
+        public int UsuarioId { get; set; }
 
         [Column("data_criacao")]
         public DateTime DataCriacao { get; set; }

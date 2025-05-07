@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Store.App.Infrastructure.Database.Entities
+namespace Store.App.Infrastructure.Database.DbEntities
 {
     [Table("usuario_endereco")]
     public class UsuarioEnderecoEntity
     {
+        public virtual UsuarioEntity? Usuario { get; set; }
+
         [Key]
         [Column("id")]
         public int Id { get; set; }
@@ -22,7 +24,7 @@ namespace Store.App.Infrastructure.Database.Entities
 
         [Column("numero")]
         [Required]
-        public int Numero { get; set; }
+        public int NumeroImovel { get; set; }
 
         [Column("zipcode")]
         [StringLength(10)]
@@ -38,6 +40,11 @@ namespace Store.App.Infrastructure.Database.Entities
         [StringLength(15)]
         [Required]
         public string Longitude { get; set; }
+
+        [Column("usuario_id")]
+        [ForeignKey(nameof(Usuario))]
+        [Required]
+        public int UsuarioId { get; set; }
 
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Store.App.Infrastructure.Database.Entities;
+using Store.App.Infrastructure.Database.DbEntities;
 
 namespace Store.App.Infrastructure.Database
 {
@@ -11,12 +11,10 @@ namespace Store.App.Infrastructure.Database
         }
         public DbSet<CarroEntity> Carro { get; set; }
         public DbSet<CarroProdutoEntity> CarroProduto { get; set; }
-        public DbSet<ClienteEntity> Cliente { get; set; }
         public DbSet<FilialEntity> Filial { get; set; }
         public DbSet<ProdutoEntity> Produto { get; set; }
         public DbSet<ProdutoCategoriaEntity> ProdutoCategoria { get; set; }
         public DbSet<UsuarioEntity> Usuario { get; set; }
-        public DbSet<UsuarioNomeEntity> UsuarioNome { get; set; }
         public DbSet<UsuarioEnderecoEntity> UsuarioEndereco { get; set; }
         public DbSet<VendaEntity> Venda { get; set; }
         public DbSet<VendaItensEntity> ItensVenda { get; set; }
@@ -25,16 +23,13 @@ namespace Store.App.Infrastructure.Database
         {
             DefaultProperty<CarroEntity>(modelBuilder.Entity<CarroEntity>());
             DefaultProperty<CarroProdutoEntity>(modelBuilder.Entity<CarroProdutoEntity>());
-            DefaultProperty<ClienteEntity>(modelBuilder.Entity<ClienteEntity>());
             DefaultProperty<FilialEntity>(modelBuilder.Entity<FilialEntity>());
             DefaultProperty<ProdutoEntity>(modelBuilder.Entity<ProdutoEntity>());
             DefaultProperty<ProdutoCategoriaEntity>(modelBuilder.Entity<ProdutoCategoriaEntity>());
             DefaultProperty<UsuarioEntity>(modelBuilder.Entity<UsuarioEntity>());
-            DefaultProperty<UsuarioNomeEntity>(modelBuilder.Entity<UsuarioNomeEntity>());
             DefaultProperty<UsuarioEnderecoEntity>(modelBuilder.Entity<UsuarioEnderecoEntity>());
             DefaultProperty<VendaEntity>(modelBuilder.Entity<VendaEntity>());
             DefaultProperty<VendaItensEntity>(modelBuilder.Entity<VendaItensEntity>());
-
         }
 
         private PropertyBuilder DefaultProperty<T>(EntityTypeBuilder entity, string pkNameInDb = "id")

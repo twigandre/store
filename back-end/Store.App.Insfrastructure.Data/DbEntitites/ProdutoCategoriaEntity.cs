@@ -1,17 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Store.App.Infrastructure.Database.Entities
+namespace Store.App.Infrastructure.Database.DbEntities
 {
-    [Table("filial")]
-    public class FilialEntity
+    [Table("produto_categoria")]
+    public class ProdutoCategoriaEntity
     {
         [Key]
         [Column("id")]
         public int Id { get; set; }
 
         [Column("nome")]
-        [StringLength(100)]
+        [StringLength(150)]
         [Required]
         public string Nome { get; set; }
     }
