@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Store.App.Crosscutting.Commom.ViewModel.Core.Application.Usuario;
 using Store.App.Crosscutting.Commom.ViewModel.Core.Application.Usuario.Salvar;
+using Store.App.Crosscutting.Commom.ViewModel.Core.Usuario;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
@@ -11,10 +11,10 @@ namespace Store.App.Core.Application.Usuario.Salvar
         public int? Id { get; set; }
 
         [Required]
-        public UsuarioNome Nome { get; set; }
+        public UsuarioNomeVM Nome { get; set; }
 
         [Required]
-        public UsuarioEndereco Endereco { get; set; }
+        public UsuarioEnderecoVM Endereco { get; set; }
 
         [StringLength(50)]
         [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "O e-mail informado não é válido.")]

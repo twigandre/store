@@ -1,0 +1,16 @@
+﻿using Store.App.Infrastructure.Database;
+using Store.App.Infrastructure.Database.DbEntities;
+
+namespace Store.App.Infrastructure.Database.DbRepository.Carro
+{
+    public class CarroRepository : GenericRepository<CarroEntity>, ICarroRepository
+    {
+        public CarroRepository(StoreContext db_dbContext) : base(db_dbContext)
+        {
+        }
+
+        public async Task<CarroEntity> SelecionarCarroPorIdProduto(int idProduto, CancellationToken token) 
+            => await Selecionar(x => x.Id == idProduto, "CarroProduto", token);
+        
+    }
+}

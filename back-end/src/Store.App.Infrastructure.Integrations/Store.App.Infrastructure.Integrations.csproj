@@ -11,4 +11,8 @@
     <Folder Include="Rest\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Store.App.Crosscutting.Commom\Store.App.Crosscutting.Commom.csproj" />
+  </ItemGroup>
+
 </Project>

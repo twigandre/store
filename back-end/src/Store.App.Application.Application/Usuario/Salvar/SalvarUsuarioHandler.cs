@@ -36,7 +36,7 @@ namespace Store.App.Core.Application.Usuario.Salvar
             {
                 return new SalvarUsuarioResponse()
                 {
-                    StatusCode = System.Net.HttpStatusCode.Conflict,
+                    StatusCode = HttpStatusCode.Conflict,
                     TextResponse = "Filial informada não existe!"
                 };
             }
@@ -47,20 +47,19 @@ namespace Store.App.Core.Application.Usuario.Salvar
                 {
                     return new SalvarUsuarioResponse()
                     {
-                        StatusCode = System.Net.HttpStatusCode.BadRequest,
+                        StatusCode = HttpStatusCode.BadRequest,
                         TextResponse = "Senha não informada. (Se for um novo usuário, será necessário informada a senha.)"
                     };
                 }
 
                 bool emailOuTelefoneJaCadastrado = await _repositoryUsuario.Existe(x => x.Email.ToUpper().Equals(request.Email.ToUpper()) ||
-                                                                                        x.Telefone.ToUpper().Equals(request.Telefone.ToUpper()), 
-                                                                                   cancellationToken);
+                                                                                        x.Telefone.ToUpper().Equals(request.Telefone.ToUpper()), cancellationToken);
 
                 if (emailOuTelefoneJaCadastrado)
                 {
                     return new SalvarUsuarioResponse()
                     {
-                        StatusCode = System.Net.HttpStatusCode.Conflict,
+                        StatusCode = HttpStatusCode.Conflict,
                         TextResponse = "E-mail ou Telefone já cadastrado."
                     };
                 }
@@ -107,7 +106,7 @@ namespace Store.App.Core.Application.Usuario.Salvar
             {
                 Id = entity.Id,
                 StatusCode = isNovoUsuario ? HttpStatusCode.Created : HttpStatusCode.OK,
-                TextResponse = "Usuário salvo com sucesso."
+                TextResponse = "Usuário " + ((isNovoUsuario)? "inserido" : "atualizado") + " com sucesso."
             };
         }
     }

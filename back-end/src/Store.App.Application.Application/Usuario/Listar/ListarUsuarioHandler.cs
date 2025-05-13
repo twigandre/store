@@ -1,7 +1,9 @@
 ﻿using MediatR;
-using Store.App.Crosscutting.Commom.ViewModel.Core.Application;
-using Store.App.Crosscutting.Commom.ViewModel.Core.Application.Usuario;
-using Store.App.Crosscutting.Commom.ViewModel.Core.Application.Usuario.Listar;
+using Store.App.Crosscutting.Commom.Utils;
+using Store.App.Crosscutting.Commom.ViewModel;
+using Store.App.Crosscutting.Commom.ViewModel.Core.Filial;
+using Store.App.Crosscutting.Commom.ViewModel.Core.Usuario;
+using Store.App.Crosscutting.Commom.ViewModel.Core.Usuario.Listar;
 using Store.App.Crosscutting.Commom.ViewModel.Pagination;
 using Store.App.Infrastructure.Database.DbRepository.Usuario;
 
@@ -41,14 +43,12 @@ namespace Store.App.Core.Application.Usuario.Listar
                     Items = resultadoPaginado.Items.Select(x => new ListarUsuarioResult
                     {
                         Id = x.Id,
-                        Nome = new UsuarioNome
+                        Nome = new UsuarioNomeVM
                         {
                             PrimeiroNome = x.PrimeiroNome,
                             SobreNome = x.SobreNome
                         },
-                        Endereco = x.Endereco.Count == 0 ? 
-                        new UsuarioEndereco() : 
-                        new UsuarioEndereco()
+                        Endereco = new UsuarioEnderecoVM()
                         {
                             Logradouro = x.Endereco.FirstOrDefault().Logradouro,
                             Cidade = x.Endereco.FirstOrDefault().Cidade,
@@ -63,14 +63,14 @@ namespace Store.App.Core.Application.Usuario.Listar
                         Perfil = x.Perfil,
                         Status = x.Status,
                         FilialId = x.FilialId,
-                        Filial = new Filial
+                        Filial = new FilialVM
                         {
                             Id = x.Filial.Id,
                             Nome = x.Filial.Nome
-                        }                         
+                        }
                     }).ToList()
                 }
             };
-        }
+        }        
     }
 }

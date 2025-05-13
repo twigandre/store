@@ -1,5 +1,6 @@
 ﻿using Store.App.Crosscutting.Commom.ViewModel.Core.Application.Usuario;
-using Store.App.Crosscutting.Commom.ViewModel.Core.Application;
+using Store.App.Crosscutting.Commom.ViewModel.Core.Filial;
+using Store.App.Crosscutting.Commom.ViewModel.Core.Usuario;
 
 namespace Store.App.Core.Application.Usuario.Selecionar
 {
@@ -7,9 +8,9 @@ namespace Store.App.Core.Application.Usuario.Selecionar
     {
         public int? Id { get; set; }
 
-        public UsuarioNome Nome { get; set; }
+        public UsuarioNomeVM Nome { get; set; }
 
-        public UsuarioEndereco Endereco { get; set; }
+        public UsuarioEnderecoVM Endereco { get; set; }
 
         public string Email { get; set; }
 
@@ -23,6 +24,6 @@ namespace Store.App.Core.Application.Usuario.Selecionar
 
         public int? FilialId { get; set; }
 
-        public Filial Filial { get; set; }
+        public FilialVM Filial { get; set; }
     }
 }

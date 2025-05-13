@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Store.App.Tests", "Store.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sotore.App.Tests", "tests\Sotore.App.Tests\Sotore.App.Tests.csproj", "{5AB45140-BEC4-44EF-B91A-51307ECEA677}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.App.Insfrastructure.Database", "Store.App.Insfrastructure.Data\Store.App.Insfrastructure.Database.csproj", "{363F8843-4311-4017-A900-140C02ECDEE9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.App.Insfrastructure.Database", "src\Store.App.Insfrastructure.Data\Store.App.Insfrastructure.Database.csproj", "{363F8843-4311-4017-A900-140C02ECDEE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

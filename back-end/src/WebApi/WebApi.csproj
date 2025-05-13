@@ -24,6 +24,7 @@
     <Folder Include="ApplicationLog\DefaultLog\" />
     <Folder Include="ApplicationLog\Sales\" />
     <Folder Include="Controllers\DropDown\" />
+    <Folder Include="Ftp\Produto\" />
   </ItemGroup>
 
 </Project>

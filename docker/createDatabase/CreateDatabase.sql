@@ -23,6 +23,9 @@ CREATE TABLE IF NOT EXISTS produto (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     preco_unitario NUMERIC(10, 2) NOT NULL,
+	descricao varchar(500) not null,
+	nota_produto INTEGER NOT NULL CHECK (nota_produto > 0 AND nota_produto <= 5),
+	quantidade_vendas INTEGER NOT NULL,
 	categoria_id INTEGER not null REFERENCES produto_categoria(id)
 );
 
@@ -49,12 +52,28 @@ CREATE TABLE IF NOT EXISTS usuario_endereco (
 	usuario_id INTEGER NULL REFERENCES usuario(id)
 );
 
+CREATE TABLE IF NOT EXISTS carro ( 
+    id SERIAL PRIMARY KEY,
+	status VARCHAR(30) NOT NULL CHECK (status IN ('em_andamento', 'cancelado', 'compra_realizada')),
+	usuario_id INTEGER NOT NULL REFERENCES usuario(id),
+	data_criacao TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS carro_produtos ( 
+    id SERIAL PRIMARY KEY,
+	carro_id INTEGER NOT NULL REFERENCES carro(id),
+	produto_id INTEGER NOT NULL REFERENCES produto(id),
+	quantidade INTEGER NOT NULL
+);
+
+
 CREATE TABLE IF NOT EXISTS venda (
     id SERIAL PRIMARY KEY,
     numero_venda VARCHAR(11) UNIQUE NOT NULL,
     data_venda TIMESTAMP NOT NULL DEFAULT NOW(),
     usuario_id INTEGER NOT NULL REFERENCES usuario(id),
     filial_id INTEGER NOT NULL REFERENCES filial(id),
+	carro_id INTEGER NOT NULL REFERENCES carro(id),
     valor_total NUMERIC(12, 2) NOT NULL DEFAULT 0,
     is_cancelada BOOLEAN NOT NULL DEFAULT FALSE
 );
@@ -68,19 +87,6 @@ CREATE TABLE IF NOT EXISTS venda_itens (
     desconto NUMERIC(10, 2) NOT NULL DEFAULT 0,
     valor_total NUMERIC(12, 2) NOT NULL,
     is_cancelado BOOLEAN NOT NULL DEFAULT FALSE
-);
-
-CREATE TABLE IF NOT EXISTS carro ( 
-    id SERIAL PRIMARY KEY,
-	usuario_id INTEGER NOT NULL REFERENCES usuario(id),
-	data_criacao TIMESTAMP NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS carro_produtos ( 
-    id SERIAL PRIMARY KEY,
-	carro_id INTEGER NOT NULL REFERENCES carro(id),
-	produto_id INTEGER NOT NULL REFERENCES produto(id),
-	quantidade INTEGER NOT NULL
 );
 
 DO $$
@@ -216,6 +222,14 @@ $$;
 
 ---- CRIAR produto
 
+ -- id SERIAL PRIMARY KEY,
+    -- nome VARCHAR(100) NOT NULL,
+    -- preco_unitario NUMERIC(10, 2) NOT NULL,
+	-- descricao varchar(500) not null,
+	-- nota_produto INTEGER NOT NULL CHECK (nota_produto > 0 AND nota_produto <= 5),
+	-- quantidade_vendas INTEGER NOT NULL,
+	-- categoria_id INTEGER not null REFERENCES produto_categoria(id)
+
 DO $$
 DECLARE
 	cat_id INT;
@@ -225,7 +239,7 @@ BEGIN
     IF NOT EXISTS (
         SELECT 1 FROM produto WHERE nome = 'batom avon'
     ) THEN
-        INSERT INTO produto (nome, preco_unitario, categoria_id) VALUES ('batom avon', 35.00, cat_id);
+        INSERT INTO produto (nome, preco_unitario, categoria_id, descricao, nota_produto, quantidade_vendas) VALUES ('batom avon', 35.00, cat_id, 'esse é um batom', 5, 0);
     END IF;
 END
 $$;
@@ -239,7 +253,7 @@ BEGIN
     IF NOT EXISTS (
         SELECT 1 FROM produto WHERE nome = 'lâmpada 120w'
     ) THEN
-        INSERT INTO produto (nome, preco_unitario, categoria_id) VALUES ('lâmpada 120w', 10.00, cat_id);
+        INSERT INTO produto (nome, preco_unitario, categoria_id, descricao, nota_produto, quantidade_vendas) VALUES ('lâmpada 120w', 10.00, cat_id, 'essa é uma lâmpada', 5, 0);
     END IF;
 END
 $$;
@@ -253,7 +267,7 @@ BEGIN
     IF NOT EXISTS (
         SELECT 1 FROM produto WHERE nome = 'maçã'
     ) THEN
-        INSERT INTO produto (nome, preco_unitario, categoria_id) VALUES ('maçã', 1.00, cat_id);
+        INSERT INTO produto (nome, preco_unitario, categoria_id, descricao, nota_produto, quantidade_vendas) VALUES ('maçã', 1.00, cat_id, 'essa é uma maçã', 5, 0);
     END IF;
 END
 $$;
@@ -267,7 +281,7 @@ BEGIN
     IF NOT EXISTS (
         SELECT 1 FROM produto WHERE nome = 'vestido'
     ) THEN
-        INSERT INTO produto (nome, preco_unitario, categoria_id) VALUES ('vestido', 50.00, cat_id);
+        INSERT INTO produto (nome, preco_unitario, categoria_id, descricao, nota_produto, quantidade_vendas) VALUES ('vestido', 50.00, cat_id, 'essa é um vestido', 5, 0);
     END IF;
 END
 $$;
@@ -281,7 +295,7 @@ BEGIN
     IF NOT EXISTS (
         SELECT 1 FROM produto WHERE nome = 'ventilador'
     ) THEN
-        INSERT INTO produto (nome, preco_unitario, categoria_id) VALUES ('ventilador', 100.00, cat_id);
+        INSERT INTO produto (nome, preco_unitario, categoria_id, descricao, nota_produto, quantidade_vendas) VALUES ('ventilador', 100.00, cat_id, 'essa é um ventilador', 5, 0);
     END IF;
 END
 $$;

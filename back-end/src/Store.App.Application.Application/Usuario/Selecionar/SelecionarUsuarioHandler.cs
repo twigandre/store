@@ -1,8 +1,8 @@
 ﻿using MediatR;
-using Store.App.Crosscutting.Commom.ViewModel.Core.Application.Usuario;
-using Store.App.Crosscutting.Commom.ViewModel.Core.Application;
 using Store.App.Infrastructure.Database.DbEntities;
 using Store.App.Infrastructure.Database.DbRepository.Usuario;
+using Store.App.Crosscutting.Commom.ViewModel.Core.Usuario;
+using Store.App.Crosscutting.Commom.ViewModel.Core.Filial;
 
 namespace Store.App.Core.Application.Usuario.Selecionar
 {
@@ -24,14 +24,14 @@ namespace Store.App.Core.Application.Usuario.Selecionar
             return new SelecionarUsuarioResponse
             {
                 Id = usuarioEntity.Id,
-                Nome = new UsuarioNome
+                Nome = new UsuarioNomeVM
                 {
                     PrimeiroNome = usuarioEntity.PrimeiroNome,
                     SobreNome = usuarioEntity.SobreNome
                 },
                 Endereco = usuarioEntity.Endereco.Count == 0 ?
-                new UsuarioEndereco() :
-                new UsuarioEndereco()
+                new UsuarioEnderecoVM() :
+                new UsuarioEnderecoVM()
                 {
                     Logradouro = usuarioEntity.Endereco.FirstOrDefault().Logradouro,
                     Cidade = usuarioEntity.Endereco.FirstOrDefault().Cidade,
@@ -46,7 +46,7 @@ namespace Store.App.Core.Application.Usuario.Selecionar
                 Perfil = usuarioEntity.Perfil,
                 Status = usuarioEntity.Status,
                 FilialId = usuarioEntity.FilialId,
-                Filial = new Filial
+                Filial = new FilialVM
                 {
                     Id = usuarioEntity.Filial.Id,
                     Nome = usuarioEntity.Filial.Nome

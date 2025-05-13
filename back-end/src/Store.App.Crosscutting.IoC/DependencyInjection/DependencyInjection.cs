@@ -11,6 +11,7 @@ using Store.App.Infrastructure.Database.DbRepository.Usuario;
 using Store.App.Infrastructure.Database.DbRepository.Venda;
 using Store.App.Infrastructure.Database.DbEntities;
 using Store.App.Insfrastructure.Database.DbRepository.Usuario.UsuarioEndereco;
+using Store.App.Insfrastructure.Database.DbRepository.Carro.CarroProduto;
 
 namespace Store.App.Crosscutting.IoC.DependencyInjection
 {
@@ -59,6 +60,7 @@ namespace Store.App.Crosscutting.IoC.DependencyInjection
             services.AddScoped<IUsuarioEnderecoRepository, UsuarioEnderecoRepository>();
             services.AddScoped<IVendaRepository, VendaRepository>();
             services.AddScoped<ICarroRepository, CarroRepository>();
+            services.AddScoped<ICarroProdutoRepository, CarroProdutoRepository>();
 
             return services;
         }

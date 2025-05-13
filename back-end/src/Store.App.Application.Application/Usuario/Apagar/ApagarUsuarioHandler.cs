@@ -25,8 +25,7 @@ namespace Store.App.Core.Application.Usuario.Apagar
                 };
             }
 
-            await _repository.Apagar(usuario, cancellationToken);
-
+            await _repository.Apagar(usuario);
             await _repository.Context.SaveChangesAsync(cancellationToken);
 
             return new ApagarUsuarioResponse

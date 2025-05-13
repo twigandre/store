@@ -2,7 +2,7 @@
 
 namespace Store.App.Core.Application.Usuario.Apagar
 {
-    public class ApagarUsuarioResponse : RequestResponse
+    public class ApagarUsuarioResponse : RequestResponseVM
     {
     }
 }
