@@ -18,6 +18,7 @@
     <ProjectReference Include="..\Store.App.Application.Application\Store.App.Core.Application.csproj" />
     <ProjectReference Include="..\Store.App.Crosscutting.Commom\Store.App.Crosscutting.Commom.csproj" />
     <ProjectReference Include="..\Store.App.Crosscutting.IoC\Store.App.Crosscutting.IoC.csproj" />
+    <ProjectReference Include="..\Store.App.Insfrastructure.Data\Store.App.Insfrastructure.Database.csproj" />
   </ItemGroup>
 
   <ItemGroup>
