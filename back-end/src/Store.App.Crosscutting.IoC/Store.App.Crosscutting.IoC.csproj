@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Store.App.Application.Application\Store.App.Core.Application.csproj" />
-    <ProjectReference Include="..\Store.App.Application.Domain\Store.App.Core.Domain.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Store.App.Core.Domain\Store.App.Core.Domain.csproj" />
     <ProjectReference Include="..\Store.App.Crosscutting.Commom\Store.App.Crosscutting.Commom.csproj" />
-    <ProjectReference Include="..\Store.App.Infrastructure.Integrations\Store.App.Infrastructure.Integrations.csproj" />
-    <ProjectReference Include="..\Store.App.Insfrastructure.Data\Store.App.Insfrastructure.Database.csproj" />
+    <ProjectReference Include="..\Store.App.Infrastrucutre.Repositories\Store.App.Infrastrucutre.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

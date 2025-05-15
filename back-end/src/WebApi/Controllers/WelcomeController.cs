@@ -8,7 +8,7 @@ namespace WebApi.Controllers
     {
 
         public WelcomeController()
-        {                
+        {
         }
 
         [HttpGet]

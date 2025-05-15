@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Store.App.Core.Domain\Store.App.Core.Domain.csproj" />
+    <ProjectReference Include="..\Store.App.Crosscutting.Commom\Store.App.Crosscutting.Commom.csproj" />
+    <ProjectReference Include="..\Store.App.Infrastructure.Context\Store.App.Infrastructure.Context.csproj" />
+  </ItemGroup>
+
+</Project>

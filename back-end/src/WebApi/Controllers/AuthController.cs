@@ -15,11 +15,11 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult<AuthenticateUserResult>> Login ([FromBody] AuthenticateUserCommand obj, CancellationToken cancellationToken)
+        public async Task<ActionResult<AuthenticateUserResult>> Login([FromBody] AuthenticateUserCommand obj, CancellationToken cancellationToken)
         {
             AuthenticateUserResult result = await _mediator.Send(obj, cancellationToken);
 
-            return StatusCode((int)result.StatusCode, result); 
+            return StatusCode((int)result.StatusCode, result);
         }
     }
 }

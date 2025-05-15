@@ -21,7 +21,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ListarUsuarioResponse> Get([FromQuery] ListarUsuarioCommand request, CancellationToken cancellationToken) => 
+        public async Task<ListarUsuarioResponse> Get([FromQuery] ListarUsuarioCommand request, CancellationToken cancellationToken) =>
             await _mediator.Send(request, cancellationToken);
 
         [HttpGet("{id:int}")]

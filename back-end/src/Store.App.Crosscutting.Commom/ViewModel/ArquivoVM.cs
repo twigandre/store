@@ -1,4 +1,4 @@
-﻿using Store.App.Core.Domain.Validation;
+﻿using Store.App.Crosscutting.Commom.Utils;
 using System.ComponentModel.DataAnnotations;
 
 namespace Store.App.Crosscutting.Commom.ViewModel
