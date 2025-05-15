@@ -1,10 +1,9 @@
 ﻿using MediatR;
-using Store.App.Crosscutting.Commom.Utils;
-using Store.App.Crosscutting.Commom.ViewModel;
 using Store.App.Crosscutting.Commom.ViewModel.Core.Filial;
 using Store.App.Crosscutting.Commom.ViewModel.Core.Usuario;
 using Store.App.Crosscutting.Commom.ViewModel.Core.Usuario.Listar;
 using Store.App.Crosscutting.Commom.ViewModel.Pagination;
+using Store.App.Infrastructure.Database.DbEntities;
 using Store.App.Infrastructure.Database.DbRepository.Usuario;
 
 namespace Store.App.Core.Application.Usuario.Listar
@@ -48,16 +47,7 @@ namespace Store.App.Core.Application.Usuario.Listar
                             PrimeiroNome = x.PrimeiroNome,
                             SobreNome = x.SobreNome
                         },
-                        Endereco = new UsuarioEnderecoVM()
-                        {
-                            Logradouro = x.Endereco.FirstOrDefault().Logradouro,
-                            Cidade = x.Endereco.FirstOrDefault().Cidade,
-                            Longitude = x.Endereco.FirstOrDefault().Longitude,
-                            NumeroImovel = x.Endereco.FirstOrDefault().NumeroImovel,    
-                            Id = x.Endereco.FirstOrDefault().Id,    
-                            Latitude = x.Endereco.FirstOrDefault().Latitude,
-                            ZipCode = x.Endereco.FirstOrDefault().ZipCode,
-                        },
+                        Endereco = entityToVm(x.Endereco.FirstOrDefault()),
                         Email = x.Email,
                         Telefone = x.Telefone,
                         Perfil = x.Perfil,
@@ -71,6 +61,17 @@ namespace Store.App.Core.Application.Usuario.Listar
                     }).ToList()
                 }
             };
-        }        
+        }
+
+        private UsuarioEnderecoVM entityToVm(UsuarioEnderecoEntity _entity) => new UsuarioEnderecoVM
+        {
+            Logradouro = _entity.Logradouro,
+            Cidade = _entity.Cidade,
+            Longitude = _entity.Longitude,
+            NumeroImovel = _entity.NumeroImovel,
+            Id = _entity.Id,
+            Latitude = _entity.Latitude,
+            ZipCode = _entity.ZipCode,
+        };
     }
 }

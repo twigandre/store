@@ -6,6 +6,7 @@ namespace Store.App.Infrastructure.Database.DbRepository.Usuario
 {
     public interface IUsuarioRepository : IGenericRepository<UsuarioEntity>
     {
-      Task<PagedItems<UsuarioEntity>> ListarUsuariosPaginado(ListarUsuarioRequest requestParams, CancellationToken cancellation);
+        Task<PagedItems<UsuarioEntity>> ListarUsuariosPaginado(ListarUsuarioRequest requestParams, CancellationToken cancellation);
+        Task<UsuarioEntity> UsuarioLogado(CancellationToken cancellationToken);
     }
 }

@@ -27,5 +27,9 @@ namespace Store.App.Infrastructure.Database.DbEntities
         [Column("quantidade")]
         [Required]
         public int Quantidade { get; set; }
+
+        [Column("data_hora_ultima_alteracao")]
+        [Required]
+        public DateTime DataHoraUltimaAlteracao { get; set; }
     }
 }

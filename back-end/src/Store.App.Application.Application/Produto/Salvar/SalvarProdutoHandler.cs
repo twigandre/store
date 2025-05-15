@@ -19,7 +19,7 @@ namespace Store.App.Core.Application.Produto.Salvar
 
             if (request.Id != null && request.Id > 0)
             {
-                produtoEntity = await _repository.Selecionar(x => x.Id == request.Id, "", cancellationToken);
+                produtoEntity = await _repository.Selecionar(x => x.Id == request.Id, cancellationToken, "");
             }
             else
             {
@@ -33,7 +33,7 @@ namespace Store.App.Core.Application.Produto.Salvar
             produtoEntity.Nome = request.Nome;
             produtoEntity.PrecoUnitario = request.PrecoUnitario;
 
-            await _repository.Salvar(produtoEntity);
+            _repository.Salvar(produtoEntity);
             await _repository.Context.SaveChangesAsync(cancellationToken);
 
             //salvar imagem no ftp;

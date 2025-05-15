@@ -70,7 +70,7 @@ namespace Store.App.Core.Application.Usuario.Salvar
             }
             else
             {
-                entity = await _repositoryUsuario.Selecionar(x => x.Id == request.Id, "Endereco", cancellationToken);
+                entity = await _repositoryUsuario.Selecionar(x => x.Id == request.Id, cancellationToken, "Endereco");
                 
                 entity.Id = (int) request.Id;
                 idEndereco = entity.Endereco.FirstOrDefault().Id;

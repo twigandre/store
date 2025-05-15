@@ -16,7 +16,7 @@ namespace Store.App.Core.Application.Usuario.Selecionar
 
         public async Task<SelecionarUsuarioResponse> Handle(SelecionarUsuarioCommand request, CancellationToken cancellationToken)
         {
-            UsuarioEntity usuarioEntity = await _usuarioRepository.Selecionar(x => x.Id == request.Id, "Endereco,Filial", cancellationToken);
+            UsuarioEntity usuarioEntity = await _usuarioRepository.Selecionar(x => x.Id == request.Id, cancellationToken, "Endereco,Filial");
 
             if (usuarioEntity is null)
                 return null;
@@ -30,17 +30,8 @@ namespace Store.App.Core.Application.Usuario.Selecionar
                     SobreNome = usuarioEntity.SobreNome
                 },
                 Endereco = usuarioEntity.Endereco.Count == 0 ?
-                new UsuarioEnderecoVM() :
-                new UsuarioEnderecoVM()
-                {
-                    Logradouro = usuarioEntity.Endereco.FirstOrDefault().Logradouro,
-                    Cidade = usuarioEntity.Endereco.FirstOrDefault().Cidade,
-                    Longitude = usuarioEntity.Endereco.FirstOrDefault().Longitude,
-                    NumeroImovel = usuarioEntity.Endereco.FirstOrDefault().NumeroImovel,
-                    Id = usuarioEntity.Endereco.FirstOrDefault().Id,
-                    Latitude = usuarioEntity.Endereco.FirstOrDefault().Latitude,
-                    ZipCode = usuarioEntity.Endereco.FirstOrDefault().ZipCode,
-                },
+                new UsuarioEnderecoVM() : 
+                entityToVm(usuarioEntity.Endereco.FirstOrDefault()),
                 Email = usuarioEntity.Email,
                 Telefone = usuarioEntity.Telefone,
                 Perfil = usuarioEntity.Perfil,
@@ -53,5 +44,16 @@ namespace Store.App.Core.Application.Usuario.Selecionar
                 }
             };
         }
+
+        private UsuarioEnderecoVM entityToVm(UsuarioEnderecoEntity _entity) => new UsuarioEnderecoVM
+        {
+            Logradouro = _entity.Logradouro,
+            Cidade = _entity.Cidade,
+            Longitude = _entity.Longitude,
+            NumeroImovel = _entity.NumeroImovel,
+            Id = _entity.Id,
+            Latitude = _entity.Latitude,
+            ZipCode = _entity.ZipCode,
+        };
     }
 }

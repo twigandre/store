@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -15,17 +15,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Store.App.Application.Application\Store.App.Core.Application.csproj" />
-    <ProjectReference Include="..\Store.App.Crosscutting.Commom\Store.App.Crosscutting.Commom.csproj" />
-    <ProjectReference Include="..\Store.App.Crosscutting.IoC\Store.App.Crosscutting.IoC.csproj" />
-    <ProjectReference Include="..\Store.App.Insfrastructure.Data\Store.App.Insfrastructure.Database.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="ApplicationLog\DefaultLog\" />
     <Folder Include="ApplicationLog\Sales\" />
     <Folder Include="Controllers\DropDown\" />
     <Folder Include="Ftp\Produto\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Store.App.Application.Application\Store.App.Core.Application.csproj" />
+    <ProjectReference Include="..\Store.App.Crosscutting.Commom\Store.App.Crosscutting.Commom.csproj" />
+    <ProjectReference Include="..\Store.App.Crosscutting.IoC\Store.App.Crosscutting.IoC.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,15 +8,15 @@ namespace Store.App.Infrastructure.Database.DbRepository
     {
         IQueryable<T> Query { get; }
         StoreContext Context { get; }
-        Task Salvar(T entity);
-        Task Apagar(T entity);
+        void Salvar(T entity);
+        void Apagar(T entity);
         Task<IEnumerable<T>> FindAll(CancellationToken cancellationToken);
         Task<List<T>> Listar(Expression<Func<T, bool>> filter = null,
-                             string includeProperties = "",
-                             CancellationToken cancellationToken = default);
-        Task<T> Selecionar(Expression<Func<T, bool>> predicate, 
-                           string includeProperties = "", 
-                           CancellationToken cancellationToken = default);
+                             CancellationToken cancellationToken = default,
+                             string includeProperties = "");
+        Task<T> Selecionar(Expression<Func<T, bool>> predicate,
+                           CancellationToken cancellationToken = default,
+                           string includeProperties = "");
         Task<PagedItems<T>> Pagination<TResult>(PagedOptions pagedFilter, 
                                                 IQueryable<T> query,
                                                 CancellationToken cancellationToken = default);        
@@ -24,5 +24,6 @@ namespace Store.App.Infrastructure.Database.DbRepository
         void DetachEntries();
         void DetachEspecifyEntity(T entity);
         void RemoveRange<T>(IEnumerable<T> entities) where T : class;
+        Task<int> CountAsync<T>(Expression<Func<T, bool>> predicate) where T : class;
     }
 }

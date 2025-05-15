@@ -5,7 +5,6 @@ using Store.App.Crosscutting.Commom.HandleError;
 using Store.App.Crosscutting.Commom.Security;
 using Store.App.Crosscutting.IoC.DependencyInjection;
 using Store.App.Infrastructure.Database;
-using System.Reflection;
 
 string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 

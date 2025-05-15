@@ -24,7 +24,7 @@ namespace Store.App.Insfrastructure.Database.DbRepository.Usuario.UsuarioEnderec
                 UsuarioId = obj.UsuarioId
             };
 
-            Salvar(entity, cancelation);
+            Salvar(entity);
             await Context.SaveChangesAsync(cancelation);
 
             return entity.Id;

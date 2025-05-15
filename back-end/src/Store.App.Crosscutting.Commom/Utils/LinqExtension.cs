@@ -44,5 +44,10 @@ namespace Store.App.Crosscutting.Commom.Utils
                 ? Queryable.ThenByDescending((IOrderedQueryable<TSource>)query, lambda)
                 : Queryable.ThenBy((IOrderedQueryable<TSource>)query, lambda);
         }
+
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable == null || !enumerable.Any();
+        }
     }
 }

@@ -8,10 +8,11 @@ namespace Store.App.Infrastructure.Database.DbEntities
     {
         public virtual FilialEntity? Filial { get; set; }
         public virtual ICollection<UsuarioEnderecoEntity> Endereco { get; set; } = new List<UsuarioEnderecoEntity>();
-
+        public virtual ICollection<CarroEntity> Carro { get; set; }
         public UsuarioEntity()
         {
             Endereco = new HashSet<UsuarioEnderecoEntity>();
+            Carro = new HashSet<CarroEntity>();
         }
 
         [Key]

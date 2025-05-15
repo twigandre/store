@@ -17,7 +17,7 @@ namespace Store.App.Core.Application.Produto.Apagar
 
         public async Task<ApagarProdutoResponse> Handle(ApagarProdutoCommand request, CancellationToken cancellationToken)
         {
-            ProdutoEntity produtoEntity = await _produtoRepository.Selecionar(x => x.Id == request.Id, "Carro", cancellationToken);
+            ProdutoEntity produtoEntity = await _produtoRepository.Selecionar(x => x.Id == request.Id, cancellationToken, "Carro");
 
             if(produtoEntity.Carro.Count > 0)
             {
@@ -25,7 +25,7 @@ namespace Store.App.Core.Application.Produto.Apagar
                 await _carroRepository.Context.SaveChangesAsync(cancellationToken);
             }
 
-            await _produtoRepository.Apagar(new ProdutoEntity { Id = request.Id });
+            _produtoRepository.Apagar(new ProdutoEntity { Id = request.Id });
             await _produtoRepository.Context.SaveChangesAsync(cancellationToken);
 
             return new ApagarProdutoResponse();

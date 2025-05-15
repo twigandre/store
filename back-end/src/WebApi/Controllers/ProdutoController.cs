@@ -4,9 +4,6 @@ using Store.App.Core.Application.Produto.Apagar;
 using Store.App.Core.Application.Produto.Listar;
 using Store.App.Core.Application.Produto.Salvar;
 using Store.App.Core.Application.Produto.Selecionar;
-using Store.App.Core.Application.Usuario.Apagar;
-using Store.App.Core.Application.Usuario.Listar;
-using Store.App.Core.Application.Usuario.Selecionar;
 
 namespace WebApi.Controllers
 {

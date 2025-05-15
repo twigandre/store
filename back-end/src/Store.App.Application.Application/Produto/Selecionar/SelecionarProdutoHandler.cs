@@ -14,7 +14,7 @@ namespace Store.App.Core.Application.Produto.Selecionar
 
         public async Task<SelecionarProdutoResponse?> Handle(SelecionarProdutoCommand request, CancellationToken cancellationToken)
         {
-            var resultado = await _repository.Selecionar(x => x.Id == request.Id, "Categoria,Carro.CarroProduto", cancellationToken);
+            var resultado = await _repository.Selecionar(x => x.Id == request.Id, cancellationToken, "Categoria,Carro.CarroProduto");
 
             if (resultado is null)            
                 return null;            

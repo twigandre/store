@@ -28,7 +28,7 @@ namespace Store.App.Infrastructure.Database.DbRepository
             await Set.AsNoTracking()    
                      .ToListAsync(cancellationToken);
          
-        public async Task Salvar(T entity)
+        public void Salvar(T entity)
         {
             var props = typeof(T)
                 .GetProperties()
@@ -40,35 +40,33 @@ namespace Store.App.Infrastructure.Database.DbRepository
 
             if (codeValue == 0)
             {
-                await Adicionar(entity);
+                Adicionar(entity);
             }
             else
             {
-                await Update(entity);
+                Update(entity);
             }
         }
         
-        private async Task Adicionar(T entity)
+        private void Adicionar(T entity)
         {
             var entry = Context.Entry(entity);
             if (entry.State == EntityState.Detached)            
-                await Set.AddAsync(entity);            
+                Set.Add(entity);            
         }
 
-        private Task Update(T entity)
+        private void Update(T entity)
         {
             var entry = Context.Entry(entity);
             if (entry.State == EntityState.Detached)
                 Set.Attach(entity);
 
             entry.State = EntityState.Modified;
-
-            return Task.CompletedTask;
         }
 
-        public async Task<T> Selecionar([Required] Expression<Func<T, bool>> predicate, 
-                                        string includeProperties = "", 
-                                        CancellationToken cancellationToken = default)
+        public async Task<T> Selecionar([Required] Expression<Func<T, bool>> predicate,
+                                        CancellationToken cancellationToken = default,
+                                        string includeProperties = "")
         {
             IQueryable<T> query = Context.Set<T>();
 
@@ -87,9 +85,9 @@ namespace Store.App.Infrastructure.Database.DbRepository
                          .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<List<T>> Listar(Expression<Func<T, bool>> filter = null, 
-                                          string includeProperties = "", 
-                                          CancellationToken cancellationToken = default)
+        public async Task<List<T>> Listar(Expression<Func<T, bool>> filter = null,
+                                          CancellationToken cancellationToken = default,
+                                          string includeProperties = "")
         {
             IQueryable<T> query = Context.Set<T>();
 
@@ -167,18 +165,21 @@ namespace Store.App.Infrastructure.Database.DbRepository
             Context.Entry(entity).State = EntityState.Detached;
         }
 
-        public Task Apagar(T entity)
+        public void Apagar(T entity)
         {
             var entry = Context.Entry(entity);
             if (entry.State == EntityState.Detached)
                 Set.Attach(entity);
 
             Set.Remove(entity);
-
-            return Task.CompletedTask;
         }
 
         public void RemoveRange<T>(IEnumerable<T> entities) where T : class =>        
-            Context.Set<T>().RemoveRange(entities);        
+            Context.Set<T>().RemoveRange(entities);
+
+        public async Task<int> CountAsync<T>(Expression<Func<T, bool>> predicate) where T : class
+        {
+            return await Context.Set<T>().CountAsync(predicate);
+        }
     }
 }

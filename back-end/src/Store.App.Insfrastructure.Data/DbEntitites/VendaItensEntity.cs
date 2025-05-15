@@ -42,9 +42,5 @@ namespace Store.App.Infrastructure.Database.DbEntities
         [Column("valor_total")]
         [Required]
         public decimal ValorTotal { get; set; }
-
-        [Column("is_cancelado")]
-        [Required]
-        public bool IsCancelado { get; set; }
     }
 }
