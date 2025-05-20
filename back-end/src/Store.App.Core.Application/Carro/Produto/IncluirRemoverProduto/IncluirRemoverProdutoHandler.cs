@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Store.App.Crosscutting.Commom.Security.JwtManager;
 using Store.App.Crosscutting.Commom.ViewModel.Core.Carro;
 using Store.App.Crosscutting.Commom.ViewModel;
 using Store.App.Core.Domain.Repositories;
@@ -10,16 +9,13 @@ namespace Store.App.Core.Application.Carro.Produto.IncluirRemoverProduto
 {
     public class IncluirRemoverProdutoHandler : IRequestHandler<IncluirRemoverProdutoCommand, IncluirRemoverProdutoResult>
     {
-        IJwtManager _jwt;
         ICarroRepository _repositoryCarro;
         ICarroProdutoRepository _carroProdutoRepository;
         IUsuarioRepository _usuarioRepository;
-        public IncluirRemoverProdutoHandler(IJwtManager jwt, 
-                                          ICarroRepository repositoryCarro, 
-                                          ICarroProdutoRepository carroProdutoRepository, 
-                                          IUsuarioRepository usuarioRepository)
+        public IncluirRemoverProdutoHandler(ICarroRepository repositoryCarro, 
+                                            ICarroProdutoRepository carroProdutoRepository, 
+                                            IUsuarioRepository usuarioRepository)
         {
-            _jwt = jwt;
             _repositoryCarro = repositoryCarro;
             _carroProdutoRepository = carroProdutoRepository;
             _usuarioRepository = usuarioRepository;

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Store.App.Core.Domain.Enum;
 using Store.App.Core.Domain.Repositories;
 using Store.App.Core.Domain.Repositories.Carro;
 
@@ -13,7 +14,7 @@ namespace Store.App.Core.Application.Carro.Apagar
         }
         public async Task<ApagarCarroResult> Handle(ApagarCarroCommand request, CancellationToken cancellationToken)
         {
-            var carro = await _carroRepository.Selecionar(x => x.Id == request.Id, cancellationToken);
+            var carro = await _carroRepository.Selecionar(x => x.Id == request.Id, cancellationToken, string.Empty);
 
             if (carro == null)
             {
@@ -24,7 +25,7 @@ namespace Store.App.Core.Application.Carro.Apagar
                 };
             }
 
-            if(carro.Status == "compra_realizada")
+            if(carro.Status == StatusCompraCarro.COMPRA_REALIZADA)
             {
                 return new ApagarCarroResult
                 {

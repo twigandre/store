@@ -26,7 +26,7 @@ namespace Store.App.Infrastrucutre.Repositories.Carro
         {            
             UsuarioEntity usuarioDb = await _usuarioRepository.UsuarioLogado(cancellationToken);
 
-            CarroEntity? carroUsuario = await Selecionar(x => x.UsuarioId == usuarioDb.Id && x.Status == "em_andamento", cancellationToken);
+            CarroEntity? carroUsuario = await Selecionar(x => x.UsuarioId == usuarioDb.Id && x.Status == "em_andamento", cancellationToken, string.Empty);
 
             return carroUsuario;
         }

@@ -67,8 +67,8 @@ namespace Store.App.Infrastrucutre.Repositories
         }
 
         public async Task<T> Selecionar([Required] Expression<Func<T, bool>> predicate,
-                                        CancellationToken cancellationToken = default,
-                                        string includeProperties = "")
+                                        CancellationToken cancellationToken,
+                                        string includeProperties)
         {
             IQueryable<T> query = Context.Set<T>();
 
@@ -87,9 +87,9 @@ namespace Store.App.Infrastrucutre.Repositories
                          .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<List<T>> Listar(Expression<Func<T, bool>> filter = null,
-                                          CancellationToken cancellationToken = default,
-                                          string includeProperties = "")
+        public async Task<List<T>> Listar(Expression<Func<T, bool>> filter,
+                                          CancellationToken cancellationToken,
+                                          string includeProperties)
         {
             IQueryable<T> query = Context.Set<T>();
 
@@ -111,7 +111,7 @@ namespace Store.App.Infrastrucutre.Repositories
 
         public async Task<PagedItems<T>> Pagination<TResult>(PagedOptions pagedFilter, 
                                                              IQueryable<T> query, 
-                                                             CancellationToken cancellationToken = default)
+                                                             CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(pagedFilter.Sort))
             {
@@ -148,7 +148,7 @@ namespace Store.App.Infrastrucutre.Repositories
             return paged;
         }
 
-        public async Task<bool> Existe(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) => 
+        public async Task<bool> Existe(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken) => 
             await Context.Set<T>()
                          .AsNoTracking()
                          .AnyAsync(predicate, cancellationToken);

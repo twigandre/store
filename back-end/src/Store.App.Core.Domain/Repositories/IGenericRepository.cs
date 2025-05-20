@@ -10,16 +10,16 @@ namespace Store.App.Core.Domain.Repositories
         void Salvar(T entity);
         void Apagar(T entity);
         Task<IEnumerable<T>> FindAll(CancellationToken cancellationToken);
-        Task<List<T>> Listar(Expression<Func<T, bool>> filter = null,
-                             CancellationToken cancellationToken = default,
-                             string includeProperties = "");
+        Task<List<T>> Listar(Expression<Func<T, bool>> filter,
+                             CancellationToken cancellationToken,
+                             string includeProperties);
         Task<T> Selecionar(Expression<Func<T, bool>> predicate,
-                           CancellationToken cancellationToken = default,
-                           string includeProperties = "");
+                           CancellationToken cancellationToken,
+                           string includeProperties);
         Task<PagedItems<T>> Pagination<TResult>(PagedOptions pagedFilter, 
                                                 IQueryable<T> query,
-                                                CancellationToken cancellationToken = default);        
-        Task<bool> Existe(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+                                                CancellationToken cancellationToken);        
+        Task<bool> Existe(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
         void DetachEntries();
         void DetachEspecifyEntity(T entity);
         void RemoveRange<T>(IEnumerable<T> entities) where T : class;

@@ -39,7 +39,7 @@ namespace Store.App.Infrastrucutre.Repositories.Usuario
         {
             string emailUsuarioLogado = _jwtManager.ObterUsuarioLogado().EmailUsuarioLogado.ToLower();
 
-            UsuarioEntity? usuarioLogadoFromDb = await Selecionar(x => x.Email.ToLower().Equals(emailUsuarioLogado), cancellationToken);
+            UsuarioEntity? usuarioLogadoFromDb = await Selecionar(x => x.Email.ToLower().Equals(emailUsuarioLogado), cancellationToken, string.Empty);
 
             return usuarioLogadoFromDb;
         }

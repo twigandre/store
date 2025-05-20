@@ -20,7 +20,7 @@ namespace Store.App.Core.Application.Auth
 
         public async Task<AuthenticateUserResult> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
         {
-            UsuarioEntity usuario = await _repository.Selecionar(x => x.Email.ToUpper().Equals(request.email.ToUpper()), cancellationToken);
+            UsuarioEntity usuario = await _repository.Selecionar(x => x.Email.ToUpper().Equals(request.email.ToUpper()), cancellationToken, string.Empty);
 
             string senhaEncript = HashPassword.StringToHash(request.password);
 
@@ -29,7 +29,7 @@ namespace Store.App.Core.Application.Auth
                 return new AuthenticateUserResult
                 {
                     TextResponse = "Login ou senha inválidos",
-                    StatusCode = HttpStatusCode.NotFound,
+                    StatusCode = HttpStatusCode.NotFound
                 };
             }
 

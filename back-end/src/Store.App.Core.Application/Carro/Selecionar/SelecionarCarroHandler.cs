@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Store.App.Crosscutting.Commom.ViewModel.Core.Usuario;
 using Store.App.Crosscutting.Commom.ViewModel.Core.Carro;
-using Store.App.Core.Domain.Repositories;
 using Store.App.Core.Domain.Entitites;
 using Store.App.Core.Domain.Repositories.Carro;
 

@@ -1,5 +1,4 @@
-﻿using Store.App.Core.Domain.Entitites;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.App.Core.Domain.Entitites

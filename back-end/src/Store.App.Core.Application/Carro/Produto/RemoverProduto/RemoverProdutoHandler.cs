@@ -30,7 +30,7 @@ namespace Store.App.Core.Application.Carro.Produto.RemoverProduto
                 };
             }
 
-            CarroProdutoEntity carroProduto = await _repositoryCarroProduto.Selecionar(x => x.CarroId == carro.Id && x.ProdutoId == request.IdProduto, cancellationToken);
+            CarroProdutoEntity carroProduto = await _repositoryCarroProduto.Selecionar(x => x.CarroId == carro.Id && x.ProdutoId == request.IdProduto, cancellationToken, string.Empty);
 
             if(carroProduto is null)
             {

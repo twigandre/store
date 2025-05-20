@@ -18,7 +18,7 @@ namespace Store.App.Infrastrucutre.Repositories.Carro.CarroProduto
 
         public async Task<RequestResponseVM> IncluirProdutoNoCarro(ManterCarroProdutoVM obj, CancellationToken cancellationToken)
         {
-            CarroProdutoEntity? carroProdutoEntity = await Selecionar(x => x.CarroId == obj.IdCarro && x.ProdutoId == obj.IdProduto, cancellationToken);   
+            CarroProdutoEntity? carroProdutoEntity = await Selecionar(x => x.CarroId == obj.IdCarro && x.ProdutoId == obj.IdProduto, cancellationToken, string.Empty);   
 
             if(carroProdutoEntity is null) 
             {
@@ -30,7 +30,7 @@ namespace Store.App.Infrastrucutre.Repositories.Carro.CarroProduto
 
             if (qtdProduto > 20)
             {
-                var produto = await _produtoRepository.Selecionar(x => x.Id == obj.IdProduto, cancellationToken);
+                var produto = await _produtoRepository.Selecionar(x => x.Id == obj.IdProduto, cancellationToken, string.Empty);
                 
                 return new RequestResponseVM
                 {
@@ -54,7 +54,7 @@ namespace Store.App.Infrastrucutre.Repositories.Carro.CarroProduto
 
         public async Task<RequestResponseVM> RemoverProdutoDoCarro(ManterCarroProdutoVM obj, CancellationToken cancellationToken)
         {
-            CarroProdutoEntity? carroProdutoEntity = await Selecionar(x => x.CarroId == obj.IdCarro && x.ProdutoId == obj.IdProduto, cancellationToken);       
+            CarroProdutoEntity? carroProdutoEntity = await Selecionar(x => x.CarroId == obj.IdCarro && x.ProdutoId == obj.IdProduto, cancellationToken, string.Empty);       
             
             if(carroProdutoEntity is null)
             {
@@ -82,7 +82,7 @@ namespace Store.App.Infrastrucutre.Repositories.Carro.CarroProduto
 
             return new RequestResponseVM
             {
-                TextResponse = "Produto removido com sucesso ao carro!"
+                TextResponse = "Produto removido com sucesso do carro!"
             };
         }
 
